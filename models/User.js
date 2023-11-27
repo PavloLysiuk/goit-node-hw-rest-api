@@ -21,6 +21,9 @@ const userSchema = new Schema(
       required: true,
       minlength: 6,
     },
+    token: {
+      type: String,
+    }
   },
   {
     versionKey: false,
@@ -43,6 +46,6 @@ export const userSigninSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-const User = model('User', userSchema);
+const User = model('user', userSchema);
 
 export default User;

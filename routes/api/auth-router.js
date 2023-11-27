@@ -1,13 +1,15 @@
 import express from 'express';
-import { signup, signin } from '../../controllers/auth/index.js';
+import { signup, signin, getCurrent, logout } from '../../controllers/auth/index.js';
 
-import { isEmptyBody } from '../../middlewares/index.js';
+import { authenticate, isEmptyBody } from '../../middlewares/index.js';
 import { validateBody } from '../../decorators/index.js';
 import { userSignupSchema, userSigninSchema } from '../../models/User.js';
 
 const authRouter = express.Router();
 
-authRouter.post('/signup', isEmptyBody, validateBody(userSignupSchema), signup);
-authRouter.post('/signin', isEmptyBody, validateBody(userSigninSchema), signin);
+authRouter.post('/register', isEmptyBody, validateBody(userSignupSchema), signup);
+authRouter.post('/login', isEmptyBody, validateBody(userSigninSchema), signin);
+authRouter.get('/current', authenticate, getCurrent);
+authRouter.post('/logout', authenticate, logout);
 
 export default authRouter;

@@ -7,7 +7,7 @@ import {
   addContact,
   updateStatusContact,
 } from '../../controllers/contacts/index.js';
-import { authenticate, isEmptyBody, IsValidId } from '../../middlewares/index.js';
+import { authenticate, isEmptyBody, IsValidId, upload } from '../../middlewares/index.js';
 import { validateBody } from '../../decorators/index.js';
 import { contactAddSchema, contactUpdateSchema, contactFavoriteSchema } from '../../models/Contact.js';
 
@@ -15,7 +15,10 @@ const contactsRouter = express.Router();
 
 contactsRouter.use(authenticate);
 
-contactsRouter.route('/').get(getAll).post(isEmptyBody, validateBody(contactAddSchema), addContact);
+contactsRouter
+  .route('/')
+  .get(getAll)
+  .post(upload.single('avatarURL'), isEmptyBody, validateBody(contactAddSchema), addContact);
 contactsRouter
   .route('/:contactId')
   .get(IsValidId, getById)

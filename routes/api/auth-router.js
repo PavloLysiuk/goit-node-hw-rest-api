@@ -16,7 +16,7 @@ import { userSignupSchema, userSigninSchema, userEmailSchema } from '../../model
 const authRouter = express.Router();
 
 authRouter.post('/register', isEmptyBody, validateBody(userSignupSchema), signup);
-authRouter.get('/verify/:verificationCode', verifyEmail);
+authRouter.get('/verify/:verificationToken', verifyEmail);
 authRouter.post('/verify', isEmptyBody, validateBody(userEmailSchema), resendVerifyEmail);
 authRouter.post('/login', isEmptyBody, validateBody(userSigninSchema), signin);
 authRouter.get('/current', authenticate, getCurrent);

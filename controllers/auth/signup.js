@@ -16,14 +16,14 @@ const signup = ctrlWrapper(async (req, res) => {
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
-  const verificationCode = nanoid();
+  const verificationToken = nanoid();
   const avatarURL = gravatar.url(email);
-  const newUser = await User.create({ ...req.body, password: hashPassword, avatarURL, verificationCode });
+  const newUser = await User.create({ ...req.body, password: hashPassword, avatarURL, verificationToken });
 
   const verifyEmail = {
     to: email,
     subject: 'Verify email',
-    html: `<a target="_blank" href="${BASE_URL}/users/verify/${verificationCode}">Click to verify your Email</a>`,
+    html: `<a target="_blank" href="${BASE_URL}/users/verify/${verificationToken}">Click to verify your Email</a>`,
   };
 
   await sendEmail(verifyEmail);

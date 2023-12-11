@@ -20,7 +20,7 @@ const resendVerifyEmail = ctrlWrapper(async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: 'Verify email',
-    html: `<a target="_blank" href="${BASE_URL}/users/verify/${user.verificationCode}">Click to verify your Email</a>`,
+    html: `<a target="_blank" href="${BASE_URL}/users/verify/${user.verificationToken}">Click to verify your Email</a>`,
   };
 
   await sendEmail(verifyEmail);

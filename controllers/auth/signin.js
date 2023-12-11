@@ -9,13 +9,15 @@ const { JWT_SECRET } = process.env;
 const signin = ctrlWrapper(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-
   if (!user) {
     throw HttpError(401, 'Email or password is wrong');
   }
 
-  const passwordCompare = await bcrypt.compare(password, user.password);
+  if (!user.verify) {
+    throw HttpError(401, 'Email is not verified');
+  }
 
+  const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
     throw HttpError(401, 'Email or password is wrong');
   }
